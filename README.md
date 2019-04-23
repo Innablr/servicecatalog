@@ -9,3 +9,4 @@ Important steps to be considered before running this project
 * Replace ROOT_R53_DOMAIN and ROOT_AWS_ORG in the Makefile with the correct values.
 * Replace PrincipalARN with correct iam role in cf-create-service-catalog.cf.yaml
 * ``` make root ```
+* For more details on using cloudformation-seed, refer to https://github.com/Innablr/cloudformation-seed
