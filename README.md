@@ -8,3 +8,4 @@ Important steps to be considered before running this project
 * Must be logged into the AWS Root account via cli
 * Replace ROOT_R53_DOMAIN and ROOT_AWS_ORG in the Makefile with the correct values.
 * ``` make root ```
+* For more details on using cloudformation-seed, refer to https://github.com/Innablr/cloudformation-seed
