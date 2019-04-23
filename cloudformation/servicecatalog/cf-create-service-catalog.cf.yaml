@@ -74,6 +74,6 @@ Resources:
       - ProvisionPortfolio
     Type: "AWS::ServiceCatalog::PortfolioPrincipalAssociation"
     Properties:
-      PrincipalARN: !Sub arn:aws:iam::${AWS::AccountId}:role/Prod-GoogleSSO-Admin
+      PrincipalARN: !Sub arn:aws:iam::${AWS::AccountId}:role/role-name
       PortfolioId: !Ref ProvisionPortfolio
       PrincipalType: IAM

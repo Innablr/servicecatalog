@@ -7,4 +7,5 @@ Service Catalog
 Important steps to be considered before running this project
 * Must be logged into the AWS Root account via cli
 * Replace ROOT_R53_DOMAIN and ROOT_AWS_ORG in the Makefile with the correct values.
+* Replace PrincipalARN with correct iam role in cf-create-service-catalog.cf.yaml
 * ``` make root ```
