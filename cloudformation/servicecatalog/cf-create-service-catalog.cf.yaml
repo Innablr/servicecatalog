@@ -1,0 +1,79 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: Provision Service catalogue for iam role provision
+
+Parameters:
+  TemplatesS3Bucket:
+    Type: String
+    Description: S3 Bucket with the components templates
+  InstallationName:
+    Type: String
+    Description: Unique DNS stack installation name
+  RuntimeEnvironment:
+    Type: String
+    Description: The runtime environment config tag
+    Default: dev
+  Route53ZoneDomain:
+    Type: String
+    Description: Route53 zone domain that represents the environment
+  ProductOwner:
+    Type: String
+    Description: Owner of the products, used for information purposes
+  ProductSupportEmail:
+    Type: String
+    Description: Owner of the products email, used for information purposes
+  ProductSupportDescription:
+    Type: String
+    Description: Support description, used for information purposes
+  ProductSupportUrl:
+    Type: String
+    Description: URL for product support, used for information purposes
+  ProductTemplateUrlV1:
+    Type: String
+    Description: Points to the CF template in S3 that will be used as the SC product v1
+  ProductTemplateUrlV2:
+    Type: String
+    Description: Points to the CF template in S3 that will be used as the SC product v2
+
+Resources:
+  CreateRoles:
+    Type: AWS::ServiceCatalog::CloudFormationProduct
+    Properties:
+      Owner: !Ref ProductOwner
+      SupportDescription: !Ref ProductSupportDescription
+      SupportEmail: !Ref ProductSupportEmail
+      SupportUrl: !Ref ProductSupportUrl
+      Description: Product to create IAM Roles for a Account
+      Name: Provision IAM Roles
+      ProvisioningArtifactParameters:
+        - Description: Create Stacket Roles
+          Info:
+            LoadTemplateFromURL: !Ref ProductTemplateUrlV1
+          Name: Create Roles V1
+        - Description: Create Stacket Roles and Kinesis role
+          Info:
+            LoadTemplateFromURL: !Ref ProductTemplateUrlV2
+          Name: Create Roles V2
+
+  ProvisionPortfolio:
+    Type: AWS::ServiceCatalog::Portfolio
+    Properties:
+      ProviderName: !Ref ProductOwner
+      DisplayName: Create Roles
+
+  AssociateProducttoPortfolio:
+    DependsOn:
+      - ProvisionPortfolio
+    Type: AWS::ServiceCatalog::PortfolioProductAssociation
+    Properties:
+      PortfolioId: !Ref ProvisionPortfolio
+      ProductId: !Ref CreateRoles
+
+  GrantAccessToProduct:
+    DependsOn:
+      - ProvisionPortfolio
+    Type: "AWS::ServiceCatalog::PortfolioPrincipalAssociation"
+    Properties:
+      PrincipalARN: !Sub arn:aws:iam::${AWS::AccountId}:role/Prod-GoogleSSO-Admin
+      PortfolioId: !Ref ProvisionPortfolio
+      PrincipalType: IAM

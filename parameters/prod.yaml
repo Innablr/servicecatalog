@@ -1,0 +1,14 @@
+---
+stacks:
+  - name: service-catalog
+    template: servicecatalog/cf-create-service-catalog.cf.yaml
+    parameters:
+      ProductOwner: Cloud Platform Team
+      ProductSupportEmail: CloudPlatformTeam@innablr.com.au
+      ProductSupportDescription: |
+        This product is part of the Account Vending Machine.
+        Please see Cloud Platform Team for support and
+        instructions and also follow the support URL link.
+      ProductSupportUrl: https://confluence.link.url
+      ProductTemplateUrlV1: !CloudformationTemplateS3Url servicecatalog/v1/cf-iam-role.cf.yaml
+      ProductTemplateUrlV2: !CloudformationTemplateS3Url servicecatalog/v2/cf-iam-role.cf.yaml
