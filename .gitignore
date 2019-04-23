@@ -1,0 +1,6 @@
+site-packages
+python_lib
+*.zip
+.idea
+.DS_Store
+.VScode
